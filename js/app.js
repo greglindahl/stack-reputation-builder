@@ -49,6 +49,48 @@ var showQuestion = function(question) {
 	return result;
 };
 
+// this function takes the question object returned by StackOverflow 
+// and creates new result to be appended to DOM
+var showAnswerer = function(answerer) {
+	
+	// clone our result template code
+	var result = $('.templates .answerer').clone();
+	
+	// Set the user properties in result
+	var answererElem = result.find('.user-link a');
+	answererElem.attr('href', items.user.link);
+	answererElem.text(items.user.title);
+
+	// set the date asked property in result
+	var displayName = result.find('.display-name');
+	// var reputation = new Reputation(user.reputation);
+	// asked.text(date.toString());
+
+	// set the #views for question property in result
+	var reputation = result.find('.reputation');
+	viewed.text(question.view_count);
+
+	// set some properties related to asker
+	// var asker = result.find('.asker');
+	// asker.html('<p>Name: <a target="_blank" href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
+	// 												question.owner.display_name +
+	// 											'</a>' +
+	// 						'</p>' +
+ // 							'<p>Reputation: ' + question.owner.reputation + '</p>'
+	// );
+
+	return result;
+};
+
+// function showAnswerer(results){
+//   var html = '';
+//   $.each(results.items, function(index, item){
+//   	html += '<p><img src="'+items.user.profile_image.default.url+'">' + items.user.display_name.title + '</p>';
+//   	console.log(item.snippet.title);
+//   });
+//   $('#search-results').html(html);
+// }
+
 
 // this function takes the results object from StackOverflow
 // and creates info about search results to be appended to DOM
@@ -119,8 +161,8 @@ var getInspired = function(tags) {
 		$('.search-results').html(searchResults);
 
 		$.each(result.items, function(i, item) {
-			var question = showQuestion(item);
-			$('.results').append(question);
+			var answerer = showAnswerer(item);
+			$('.results').append(answerer);
 		});
 	})
 	.fail(function(jqXHR, error, errorThrown){
